@@ -48,7 +48,7 @@ const BookingsTab = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.put(`/${bookingId}`, { status: 'Cancelled' });
+        await axios.put(`https://capstone-be-3-2z1r.onrender.com/${bookingId}`, { status: 'Cancelled' });
         // After cancellation, refetch the bookings to update the UI
         const response = await axios.get(`${user.username}`, {
           headers: {

@@ -40,7 +40,7 @@ const AddServices = () => {
         description,
       };
 
-      await axios.post('', serviceData,{
+      await axios.post('https://capstone-be-3-2z1r.onrender.com', serviceData,{
         headers: {
             Authorization: `Bearer ${user.token}`, // Include the token in the request headers
         },

@@ -43,7 +43,7 @@ const BookingsTab = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(`https://capstone-be-den4.onrender.com/api/bookings/${bookingId}`,{
+        await axios.delete(`https://https://capstone-be-3-2z1r.onrender.com/api/bookings/${bookingId}`,{
           headers: {
               Authorization: `Bearer ${user.token}`, // Include the token in the request headers
           },
