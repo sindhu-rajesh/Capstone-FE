@@ -98,7 +98,7 @@ const ServicesTab = () => {
 
   const handleDelete = async (serviceId) => {
     try {
-      await axios.delete(`https://capstone-be-den4.onrender.com/api/cleaningservices/${serviceId}`,{
+      await axios.delete(`https://capstone-be-1-r90x.onrender.com/api/cleaningservices/${serviceId}`,{
         headers: {
             Authorization: `Bearer ${user.token}`, // Include the token in the request headers
         },
