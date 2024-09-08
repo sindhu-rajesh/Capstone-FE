@@ -22,7 +22,7 @@ const ServicesTab = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get('https://capstone-be-den4.onrender.com/api/cleaningservices/getAllCleaningServices/',{
+        const response = await axios.get('https://capstone-be-1-r90x.onrender.com/api/cleaningservices/getAllCleaningServices/',{
           headers: {
               Authorization: `Bearer ${user.token}`, // Include the token in the request headers
           },
