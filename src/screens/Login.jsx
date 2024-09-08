@@ -34,7 +34,7 @@ const Login = () => {
   
       // Navigate to home page after displaying the success message
       navigate('/home');
-      window.location.reload(); // Refresh the page
+      window.location.reload(); 
     } catch (error) {
       console.error('Login error:', error);
   
