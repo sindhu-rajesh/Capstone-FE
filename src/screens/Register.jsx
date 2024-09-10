@@ -19,7 +19,7 @@ const Signup = () => {
 
   const handleSubmit = async ({ username, email, password, repeatPassword }) => {
     try {
-      const response = await axios.post('', {
+      const response = await axios.post('http://localhost:5174/api/users/register', {
         username,
         email,
         password,
