@@ -111,7 +111,7 @@ const Bookingscreen = () => {
       };
   
       // Assuming the API endpoint for booking creation
-      const response = await axios.post('', bookingData,{
+      const response = await axios.post('https://capstone-be-1-r90x.onrender.com/api/users/bookings', bookingData,{
         headers: {
             Authorization: `Bearer ${user.token}`, // Include the token in the request headers
         },
