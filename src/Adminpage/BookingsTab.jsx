@@ -14,7 +14,7 @@ const BookingsTab = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get('',{
+        const response = await axios.get('https://capstone-be-1-r90x.onrender.com/api/bookings/bookings',{
           headers: {
               Authorization: `Bearer ${user.token}`, // Include the token in the request headers
           },

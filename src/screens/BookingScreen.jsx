@@ -24,7 +24,7 @@ const Bookingscreen = () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await axios.get(`/${serviceid}`,{
+        const response = await axios.get(`https://capstone-be-1-r90x.onrender.com/api/cleaningservices/getCleaningServiceById/${serviceid}`,{
           headers: {
               Authorization: `Bearer ${user.token}`, // Include the token in the request headers
           },

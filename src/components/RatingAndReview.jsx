@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 import { Toast } from 'react-bootstrap';
 import StarRating from './StarRating'; // Import the StarRating component
 
 const RatingAndReview = () => {
-    const [, setCurrentUser] = useState(null);
+    const [ setCurrentUser] = useState(null);
     const [rating, setRating] = useState(0);
     const [review, setReview] = useState('');
     const [improvements, setImprovements] = useState('');
@@ -64,7 +64,7 @@ const RatingAndReview = () => {
         };
 
         // Submit the form data to the backend API endpoint using Axios
-        axios.post('https://capstone-be-1-r90x.onrender.com/api/rating/all', requestData, {
+        axios.post('https://capstone-be-1-r90x.onrender.com/api/rating/rating', requestData, {
             headers: {
                 Authorization: `Bearer ${user.token}`, // Include the token in the request headers
             },
@@ -193,3 +193,4 @@ const RatingAndReview = () => {
 };
 
 export default RatingAndReview;
+    

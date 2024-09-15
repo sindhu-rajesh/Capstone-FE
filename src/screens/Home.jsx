@@ -1,109 +1,198 @@
-//import React from 'react';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Swal from 'sweetalert2'; // Import SweetAlert
-import 'sweetalert2/dist/sweetalert2.css'; // Import SweetAlert styles
+import './home.css';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { Link, useNavigate } from 'react-router-dom';
+import HeaderContent from '../components/HeaderContent';
+import WhyUsSection from '../components/WhyUsSection';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import LoadingComponent from '../message/LoadingComponent';
+import ErrorPage from '../message/ErrorPage';
 
-const Login = () => {
+const Home = () => {
+  const [cleaningServices, setCleaningServices] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [availabilityFilter, setAvailabilityFilter] = useState(null);
+  const [searchInput, setSearchInput] = useState('');
+  const [priceOrder, setPriceOrder] = useState(null);
   const navigate = useNavigate();
-
-  const validationSchema = Yup.object({
-    email: Yup.string().email('Invalid email address').required('Email is required'),
-    password: Yup.string().required('Password is required'),
-  });
-
-  const handleSubmit = async ({ email, password }) => {
-    try {
-      const response = await axios.post('', { email, password });
-      console.log(response.data); // Log the response data for debugging
-  
-      // Store user information in local storage
-      localStorage.setItem('currentUser', JSON.stringify(response.data));
-      
-  
-      // Show success message using SweetAlert
-      await Swal.fire({
-        icon: 'success',
-        title: 'Login successful',
-        showConfirmButton: false,
-        timer: 2000, // Display the success message for 2 seconds
-        timerProgressBar: true // Show timer progress bar
+  const user = JSON.parse(localStorage.getItem('currentUser'));
+  useEffect(() => {
+    const fetchCleaningServices = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await axios.get('https://capstone-be-1-r90x.onrender.com/api/cleaningservices/getAllCleaningServices/',{
+          headers: {
+              Authorization: `Bearer ${user.token}`, // Include the token in the request headers
+          },
       });
-  
-      // Navigate to home page after displaying the success message
-      navigate('/home');
-      window.location.reload(); // Refresh the page
-    } catch (error) {
-      console.error('Login error:', error);
-  
-      if (error.response && error.response.status === 400) {
-        // Show error message using SweetAlert
-        await Swal.fire({
-          icon: 'error',
-          title: 'Invalid email or password',
-        });
-      } else {
-        // Show error message using SweetAlert
-        await Swal.fire({
-          icon: 'error',
-          title: 'Unexpected server response',
-        });
+        setCleaningServices(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError('Error fetching cleaning services');
+        setLoading(false);
       }
+    };
+
+    fetchCleaningServices();
+  }, []);
+
+  const handleShow = (service) => {
+    setSelectedService(service);
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+  };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const handleBookNow = () => {
+    if (selectedService) {
+      navigate(`/bookingscreen/${selectedService._id}?date=${selectedDate}`);
     }
   };
-  
-  
+
+  const handleFilterByAvailability = (availability) => {
+    setAvailabilityFilter(availability);
+  };
+
+  const handleSearchInputChange = (event) => {
+    setSearchInput(event.target.value);
+  };
+
+  const handlePriceOrderChange = (event) => {
+    setPriceOrder(event.target.value);
+  };
+
+  const filteredCleaningServices = cleaningServices.filter(service => {
+    if (availabilityFilter && service.availability !== availabilityFilter) {
+      return false;
+    }
+    if (
+      !searchInput ||
+      service.availability.toLowerCase().includes(searchInput.toLowerCase()) ||
+      service.location.toLowerCase().includes(searchInput.toLowerCase()) ||
+      service.name.toLowerCase().includes(searchInput.toLowerCase())
+    ) {
+      return true;
+    }
+    return false;
+  }).sort((a, b) => {
+    if (priceOrder === 'lowToHigh') {
+      return a.price - b.price;
+    } else if (priceOrder === 'highToLow') {
+      return b.price - a.price;
+    }
+    return 0;
+  });
+
+  if (loading) {
+    return <LoadingComponent />;
+  }
+
+  if (error) {
+    return <ErrorPage error={error} />;
+  }
+
   return (
-    <section className="vh-100 d-flex justify-content-center align-items-center" style={{ backgroundImage: `url(https://img.freepik.com/free-vector/abstract-watercolor-pastel-background_87374-139.jpg?t=st=1715597294~exp=1715600894~hmac=d19587c2a68906da2c84f39be30fe5fe21cec0adc37814b8f0c6c8afc7562952&w=900)`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-      <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-md-8 col-lg-6 col-xl-5">
-            <div className="card text-black" style={{ borderRadius: "25px" }}>
-              <div className="card-body p-md-5">
-                <div className="row justify-content-center">
-                  <div className="col-12">
-                    <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign in</p>
-                    <Formik
-                      initialValues={{
-                        email: '',
-                        password: '',
-                      }}
-                      validationSchema={validationSchema}
-                      onSubmit={handleSubmit}
-                    >
-                      {formik => (
-                        <Form className="mx-1 mx-md-4" onSubmit={formik.handleSubmit}>
-                          <div className="mb-4">
-                            <Field type="email" id="email" name="email" className="form-control" placeholder="Your Email" />
-                            <ErrorMessage name="email" component="div" className="text-danger" />
-                          </div>
-                          <div className="mb-4">
-                            <Field type="password" id="password" name="password" className="form-control" placeholder="Password" />
-                            <ErrorMessage name="password" component="div" className="text-danger" />
-                          </div>
-                          <div className="form-check mb-4">
-                            <input className="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
-                            <label className="form-check-label" htmlFor="form2Example3c">
-                              Remember me
-                            </label>
-                          </div>
-                          <div className="d-grid">
-                            <button type="submit" className="btn btn-primary btn-lg">Sign in</button>
-                          </div>
-                        </Form>
-                      )}
-                    </Formik>
-                  </div>
-                </div>
+    <div className="container" style={{
+      background: 'linear-gradient(to bottom right, #a0c4ff, #ffffff)'
+    }
+    
+    } >
+      <HeaderContent />
+      <WhyUsSection />
+      <h2 className="text-center my-5" style={{ color: '#6495ED' }}>Cleaning Services</h2>
+
+      <div className="row justify-content-center">
+        <div className="col-md-4 mb-3">
+          <DatePicker
+            selected={selectedDate}
+            onChange={handleDateChange}
+            placeholderText="Select Date"
+            dateFormat="dd-MM-yyyy"
+            className="form-control"
+          />
+        </div>
+        <div className="col-md-4 mb-3">
+          <input
+            type="text"
+            value={searchInput}
+            onChange={handleSearchInputChange}
+            placeholder="Search by service, availability, or location"
+            className="form-control"
+          />
+        </div>
+        <div className="col-md-4 mb-3">
+          <select
+            value={priceOrder}
+            onChange={handlePriceOrderChange}
+            className="form-control"
+          >
+            <option value="">Sort by Price</option>
+            <option value="lowToHigh">Low to High</option>
+            <option value="highToLow">High to Low</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="d-flex justify-content-center">
+        <Button variant="secondary" onClick={() => handleFilterByAvailability('Morning')} className="mx-2">Morning</Button>
+        <Button variant="secondary" onClick={() => handleFilterByAvailability('Afternoon')} className="mx-2">Afternoon</Button>
+        <Button variant="secondary" onClick={() => handleFilterByAvailability('Evening')} className="mx-2">Evening</Button>
+        <Button variant="secondary" onClick={() => setAvailabilityFilter(null)} className="mx-2">All</Button>
+      </div>
+
+      <div className="row my-3">
+        {filteredCleaningServices.map(service => (
+          <div key={service._id} className="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div className="card h-100 shadow-sm" style={{ transition: 'transform .2s' }}>
+              {service.image && (
+                <img src={service.image} className="card-img-top" alt={service.name} />
+              )}
+              <div className="card-body">
+                <h5 className="card-title" style={{ color: '#1A4480' }}>{service.name}</h5>
+                <p className="card-text">{service.description}</p>
+                <Button variant="primary" onClick={() => handleShow(service)} style={{ float: 'right' }}>View Details</Button>
               </div>
             </div>
           </div>
-        </div>
+        ))}
       </div>
-    </section>
-  );
-}
 
-export default Login;
+      {selectedService && (
+        <Modal show={showModal} onHide={handleClose} dialogClassName="modal-90w">
+          <Modal.Header closeButton>
+            <Modal.Title>{selectedService.name}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <img src={selectedService.image} alt={selectedService.name} className="img-fluid" />
+            <p>{selectedService.description}</p>
+            <ul>
+              <li>Availability: {selectedService.availability}</li>
+              <li>Price: ${selectedService.price}</li>
+              <li>Location: {selectedService.location}</li>
+            </ul>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>Close</Button>
+            <Button variant="primary" onClick={handleBookNow}>Book Now</Button>
+          </Modal.Footer>
+        </Modal>
+      )}
+    </div>
+  );
+};
+
+export default Home;

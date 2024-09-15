@@ -32,7 +32,7 @@ const Contact = () => {
   };
 
   const handleSubmit = (values, { setSubmitting, resetForm, setStatus }) => {
-    axios.post('', values)
+    axios.post('https://capstone-be-1-r90x.onrender.com/api/userdata/userdata', values)
       .then(response => {
         console.log('Data submitted successfully:', response.data);
         resetForm();

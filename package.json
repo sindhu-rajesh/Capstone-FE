@@ -11,9 +11,9 @@
     "start": " server.js"
   },
   "dependencies": {
-    "@fortawesome/free-regular-svg-icons": "^6.6.0",
-    "@fortawesome/free-solid-svg-icons": "^6.6.0",
-    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@fontawesome/free-regular-svg-icons": "^6.6.0",
+    "@fontawesome/free-solid-svg-icons": "^6.6.0",
+    "@fontawesome/react-fontawesome": "^0.2.2",
     "antd": "^5.20.0",
     "axios": "^1.7.3",
     "bootstrap": "^5.3.3",
