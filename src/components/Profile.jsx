@@ -2,7 +2,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { Container, Row, Col } from 'react-bootstrap';
 //import axios from 'axios';
-import BookingsTab from '../components/BookingsContent';
+import BookingsTab from './BookingsTab';
 const Profile = () => {
   // Retrieve user details from local storage
   const user = JSON.parse(localStorage.getItem('currentUser'));

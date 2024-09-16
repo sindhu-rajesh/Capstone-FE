@@ -81,7 +81,7 @@ const Bookingscreen = () => {
       setError(null);
   
       // Check if the user has already booked the service for the selected date
-      const existingBookingResponse = await axios.get(``, {
+      const existingBookingResponse = await axios.get(`https://capstone-be-1-r90x.onrender.com/api/cleaningservices/getCleaningServiceById`, {
         params: {
           serviceId: serviceid,
           serviceDate: selectedDate

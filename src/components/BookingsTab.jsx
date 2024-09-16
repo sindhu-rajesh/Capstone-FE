@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
@@ -18,7 +18,7 @@ const BookingsTab = () => {
         // Assume the user information is stored in localStorage
        
         if (user && user.username) {
-          const response = await axios.get(`${user.username}`,{
+          const response = await axios.get(`https://capstone-be-1-r90x.onrender.com/api/bookings?username=${user.username}`,{
             headers: {
                 Authorization: `Bearer ${user.token}`, // Include the token in the request headers
             },
@@ -33,7 +33,7 @@ const BookingsTab = () => {
     };
 
     fetchUserBookings();
-  }, [user]);
+  }, []);
 
   const handleCancelBooking = async (bookingId) => {
     try {
@@ -48,14 +48,17 @@ const BookingsTab = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.put(`https://capstone-be-1-r90x.onrender.com/${bookingId}`, { status: 'Cancelled' });
+        await axios.put(`https://capstone-be-1-r90x.onrender.com/api/bookings/${bookingId}`, { status: 'Cancelled' });
         // After cancellation, refetch the bookings to update the UI
-        const response = await axios.get(`${user.username}`, {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        });
-        setBookings(response.data);
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        if (user && user.username) {
+          const response = await axios.get(`https://capstone-be-1-r90x.onrender.com/api/bookings?username=${user.username}`, {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          });
+          setBookings(response.data);
+        }
         Swal.fire('Cancelled!', 'Your booking has been cancelled.', 'success');
       }
     } catch (err) {

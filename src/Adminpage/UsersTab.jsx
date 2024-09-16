@@ -13,7 +13,7 @@ const UsersTab = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get('');
+        const response = await axios.get('https://capstone-be-1-r90x.onrender.com/api/users/users');
         setUsers(response.data);
       } catch (err) {
         setError('Error fetching users');
@@ -27,7 +27,7 @@ const UsersTab = () => {
 
   const updateUserToAdmin = async (userId) => {
     try {
-      await axios.put(`/${userId}`, { isAdmin: true },{
+      await axios.put(`https://capstone-be-1-r90x.onrender.com/api/users/${userId}`, { isAdmin: true },{
         headers: {
             Authorization: `Bearer ${user.token}`, // Include the token in the request headers
         },
@@ -47,7 +47,7 @@ const UsersTab = () => {
 
   const deleteUser = async (userId) => {
     try {
-      await axios.delete(`/${userId}`,{
+      await axios.delete(`https://capstone-be-1-r90x.onrender.com/api/users/${userId}`,{
         headers: {
             Authorization: `Bearer ${user.token}`, // Include the token in the request headers
         },

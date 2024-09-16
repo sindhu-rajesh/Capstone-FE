@@ -60,7 +60,7 @@ const ServicesTab = () => {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`/${selectedService._id}`, updatedService,{
+      await axios.put(`https://capstone-be-1-r90x.onrender.com/api/cleaningservices/${selectedService._id}`, updatedService,{
         headers: {
             Authorization: `Bearer ${user.token}`, // Include the token in the request headers
         },
