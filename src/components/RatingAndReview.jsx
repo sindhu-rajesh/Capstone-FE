@@ -5,7 +5,6 @@ import { Toast } from 'react-bootstrap';
 import StarRating from './StarRating'; // Import the StarRating component
 
 const RatingAndReview = () => {
-    const [ setCurrentUser] = useState(null);
     const [rating, setRating] = useState(0);
     const [review, setReview] = useState('');
     const [improvements, setImprovements] = useState('');
@@ -20,7 +19,6 @@ const RatingAndReview = () => {
         // Check if user is logged in
        
         if (user) {
-            setCurrentUser(user);
             setName(user.username);
             setEmail(user.email);
         }
@@ -191,6 +189,4 @@ const RatingAndReview = () => {
         </Container>
     );
 };
-
 export default RatingAndReview;
-    

@@ -71,7 +71,7 @@ const UsersTab = () => {
         <Alert variant="danger">{error}</Alert>
       ) : (
         <Row>
-          {users.map((user, index) => (
+          {users.map((user, ) => (
             <Col key={user._id} lg={4} md={6} sm={12} className="mb-3">
               <Card className="user-card" style={{ height: '100%' }}>
                 <Card.Body>
