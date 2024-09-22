@@ -92,7 +92,7 @@ const QuoteTab = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get('https://capstone-be-1-r90x.onrender.com/api/quote/quote', {
+        const response = await axios.get('https://capstone-be-1-r90x.onrender.com/api/quote', {
           headers: {
             Authorization: `Bearer ${user.token}`, // Include the token in the request headers
           },
