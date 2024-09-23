@@ -1,6 +1,7 @@
 //import React from "react";
 import Navbar from './components/Navbar.jsx';
 import Home from './screens/Home.jsx';
+import Bookingscreen from "./screens/BookingScreen.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Register from './screens/Register.jsx';
 import Login from './screens/Login.jsx';
@@ -21,6 +22,7 @@ function App() {
         <Routes>
         <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/bookingscreen/:serviceid" element={<Bookingscreen />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/contact" element={<Contact />} />
@@ -29,6 +31,7 @@ function App() {
           
           <Route path="/profile" element={<Profile />} />
           <Route path="/admin" element={<Admin />} />
+          
         </Routes>
       </BrowserRouter>
       <Footer />
